@@ -11,10 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import usm.web.pretoplus.model.Contrato;
+import usm.web.pretoplus.model.Descricao;
 import usm.web.pretoplus.model.Usuario;
 import usm.web.pretoplus.repository.ContratoRepository;
 import usm.web.pretoplus.repository.UsuarioRepository;
@@ -28,22 +28,13 @@ public class ContratoController {
 	    @Autowired
 	    private UsuarioRepository ur;
 	/* --------------------------CADASTRO DE CONTRATO------------------------------------------- */
-	
-//	
-//	    @RequestMapping("/teste")
-//	    public ModelAndView perfil(HttpSession session) {
-//	        Usuario usuarios = ur.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-//	        ModelAndView mv = new ModelAndView("presto/contrato/contratos");
-//	        session.setAttribute("user", usuarios);
-//	        return mv;
-//	    }    
-//	    
 	    
 	//Método para Cadastro de usuario como Cliente através do INSERT
 		@GetMapping("/contratos")
 		public ModelAndView contrato(Authentication authentication) {                  
 			ModelAndView resultado = new ModelAndView("presto/contrato/contratos");
 			resultado.addObject("contrato", new Contrato());
+			resultado.addObject("avaliacao", new Descricao());
 			resultado.addObject("user", authentication);
 			return resultado;
 		}	
@@ -51,6 +42,7 @@ public class ContratoController {
 		//URL que recebe, trata e salva os dados no banco de dados
 		@PostMapping("/contratos")
 		public String contrato (Contrato contrato) {
+			contrato.setStatus("pendente");
 			cr.save(contrato);
 			return "redirect:/cadsucess";
 		}
@@ -69,6 +61,19 @@ public class ContratoController {
 			resultado.addObject("contratos", contratos);
 			return resultado;
 		}
+		
+		@GetMapping("/exibir/{id}")
+		public ModelAndView exibir(@PathVariable Long id, HttpSession session) { //ALTERAR A PÁGINA ASSIM QUE RECEBER O LAYOUT
+			Usuario usuarios = ur.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+			ModelAndView resultado = new ModelAndView("presto/contrato/exibir");
+			Contrato contratos = cr.findByid(id); //Listagem apenas dos prestadores
+			session.setAttribute("user", usuarios);
+			resultado.addObject("contratos", contratos);
+			return resultado;
+		}
+	
+		
+		
 		
 		
 		

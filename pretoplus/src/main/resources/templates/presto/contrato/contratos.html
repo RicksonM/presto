@@ -110,9 +110,13 @@
 
             <div  th:each="contratos: ${contratos}"  class="divContrato">
                 <p th:text="${contratos.descricao}"> </p>
-
-                <button class="btnExibirContr" onclick="abrirFormContrato()">Exibir</button>
+					
+				<button  class="btnExibirContr" onclick="abrirFormContrato()"> <a th:href="@{/exibir/{id}(id=${contratos.id})}"> Exibir </a></button> 
+				
                 <p>Início <span th:text="${contratos.datainicio}"></span> Término <span th:text="${contratos.datainicio}"></span></p>
+                
+                
+       
             </div>
 <!-- 
             <div class="divContrato">
@@ -168,7 +172,7 @@
     <!-- FIM FOOTER -->
 
     <!-- INICIO CONTRATO FIXED -->
-    <div class="modal">
+     <div class="modal">
         <form action="" method="post" class="formContrato">
             <p id="titForm">Contratar prestador</p>
 
@@ -179,9 +183,15 @@
             <input type="text"  class="inpContrato" id="inpContratado" placeholder="Nome do prestador">
 
             <label for="descServico" class="labContrato">Descrição do serviço/obra a ser realizado</label>
-            <textarea name="" class="areaDescSer" id="descServico" rows="5" placeholder="Descreva aqui a obra"></textarea>
+            <textarea name=""  class="areaDescSer" id="descServico" rows="5" placeholder="Descreva aqui a obra"></textarea>
             
-            <label for="dataIni" class="labContrato date lUm">Data de início</label>
+             <label for="divFotos" class="labContrato">Anexe algumas imagens referente ao serviço</label>
+            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+            <div id="fileList"></div>
+
+            <label for="dataIni" class="labContrato date lUm">Data de início
+                <a href="#" id="fileSelect">Escolher arquivo(s)</a>
+            </label>
             <label for="dataTer" class="labContrato date">Data do término</label>
 
             <input type="date" class="inpContrato date iUm" id="dataIni" onmouseover="MudarCorDaIni()">
@@ -203,6 +213,8 @@
             <button type="submit" id="btnContratoEnv">Contra proposta</button>
         </form>
     </div>
+                
+                
     <!-- FIM CONTRATO FIXED -->
 
     <script src="/js/contratos.js"></script>

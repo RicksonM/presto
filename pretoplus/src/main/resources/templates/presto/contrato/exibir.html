@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/logado.css">
+    <link rel="stylesheet" href="/css/perfilprestador.css">
+    <link rel="stylesheet" href="/css/contratos.css">
+    <title>Contratos</title>
+</head>
+
+     <div class="modalAparece">
+        <form action="" method="post"  th:object="${contratos}" class="formContrato formContratoAparece">
+            <p id="titForm">Contratar prestador</p>
+
+            <label for="inpContratante" class="labContrato">Contratante</label>
+            <input type="text"  class="inpContrato" th:field="*{contratante}" id="inpContratante" placeholder="Nome do cliente">
+
+            <label for="inpContratado" class="labContrato">Contratado</label>
+            <input type="text"  class="inpContrato" th:field="*{contratado}" id="inpContratado" placeholder="Nome do prestador">
+
+            <label for="descServico" class="labContrato">Descrição do serviço/obra a ser realizado</label>
+            <textarea name=""  class="areaDescSer" th:field="*{descricao}" id="descServico" rows="5" placeholder="Descreva aqui a obra"></textarea>
+            
+             <label for="divFotos" class="labContrato">Anexe algumas imagens referente ao serviço</label>
+            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+            <div id="fileList"></div>
+
+            <label for="dataIni" class="labContrato date lUm">Data de início
+                <a href="#" id="fileSelect">Escolher arquivo(s)</a>
+            </label>
+            <label for="dataTer" class="labContrato date">Data do término</label>
+
+            <input type="date" th:field="*{datainicio}" class="inpContrato date iUm" id="dataIni" onmouseover="MudarCorDaIni()">
+            <input type="date" th:field="*{datafim}" class="inpContrato date" id="dataTer" onmouseover="MudarCorDaTer()">
+
+            <label for="inpDinheiro" class="labContrato">Quantia a ser paga</label>
+            <input type="text" th:field="*{valor}" class="inpContrato mar" id="inpDinheiro" placeholder="Insira aqui o valor">
+
+            <input type="checkbox" name="" id="checkAceitarCli" class="inpCheck">
+            <label for="checkAceitarCli" class="labContrato check mar">Estou de acordo com o contrato</label>
+
+            <input type="checkbox" name="" id="checkAceitarPres" class="inpCheck">
+            <label for="checkAceitarPres" class="labContrato check">Estou de acordo com o contrato</label>
+
+            <span class="desCheck spUm">Contratante</span>
+            <span class="desCheck">Contratado</span><br>
+
+            <span id="btnContratoCan" onclick="sumirModal()">Aceitar</span>
+            <button type="submit" id="btnContratoEnv">Contra proposta</button>
+        </form>
+    </div>
+                
+                
+    <!-- FIM CONTRATO FIXED -->
+
+    <script src="/js/contratos.js"></script>
+</body>
+</html>

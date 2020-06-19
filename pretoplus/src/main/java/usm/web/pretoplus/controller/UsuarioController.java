@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import usm.web.pretoplus.model.Contrato;
+import usm.web.pretoplus.model.Descricao;
 import usm.web.pretoplus.model.Usuario;
+import usm.web.pretoplus.repository.DescricaoRepository;
 import usm.web.pretoplus.repository.UsuarioRepository;
 
 @Controller
@@ -24,6 +26,9 @@ public class UsuarioController {
 	//Injeção do repositorio UsuarioRepository
 	@Autowired
 	private UsuarioRepository ur;
+	@Autowired
+	private DescricaoRepository dr;
+
 	
 	
 	/* -------------------- CADASTRAR CLIENTE---------------------------------- */
@@ -168,7 +173,11 @@ public class UsuarioController {
 	public ModelAndView visualizarPrest(@PathVariable String email, Authentication authentication) {  //ALTERAR A PÁGINA ASSIM QUE RECEBER O LAYOUT
 		Usuario usuario = ur.getOne(email);
 		ModelAndView resultado = new ModelAndView("presto/visPrestador/visualizarpres");
+		Descricao avalia = new Descricao();
+		List<Descricao> descr = dr.findByperfil(email);
 		resultado.addObject("prestador", usuario);
+		resultado.addObject("avaliacao", avalia);
+		resultado.addObject("desc", descr);
 		resultado.addObject("contrato", new Contrato()); // CONTRATO PARA SER ACEITO NO MOLDAL DE CONTRATO
 		resultado.addObject("log", authentication);
 		return resultado;

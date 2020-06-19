@@ -34,6 +34,9 @@ public class Usuario  implements UserDetails{
 	@ManyToMany
 	private List<Contrato> contrato;
 	
+	@ManyToMany
+	private List<Descricao> avaliacao;
+	
 	
 	
 
@@ -67,6 +70,18 @@ public class Usuario  implements UserDetails{
 	
 
 	
+	public List<Descricao> getAvaliacao() {
+		return avaliacao;
+	}
+
+
+
+	public void setAvaliacao(List<Descricao> avaliacao) {
+		this.avaliacao = avaliacao;
+	}
+
+
+
 	public List<Contrato> getContrato() {
 		return contrato;
 	}

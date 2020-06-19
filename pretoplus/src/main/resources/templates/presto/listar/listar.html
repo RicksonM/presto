@@ -63,6 +63,8 @@
 						<td th:text="${solicitante.Email}"></td>
 						<td>
 							<a th:href="@{/editarS/{IdSolicitante}(IdSolicitante=${solicitante.IdSolicitante})}">Editar</a> |
+							
+							
 							<a th:href="@{/excluirS/{IdSolicitante}(IdSolicitante=${solicitante.IdSolicitante})}">Excluir</a>
 						</td>
 					</tr>

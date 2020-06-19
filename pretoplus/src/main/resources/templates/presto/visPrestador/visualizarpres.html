@@ -114,8 +114,8 @@
             <p id="titSecDesPres">Avaliações</p>
             <button id="btnEscAva" onclick="abrirClasfcar()">Escrever uma avaliação</button><br>
 
-            <div class="resenhas" style="margin-top: 60px;">
-                <span class="nomeCliDes">Lucas Santos</span>
+            <div th:each="desc: ${desc}" class="resenhas" style="margin-top: 60px;">
+                <span th:text="${desc.avaliador}" class="nomeCliDes">Lucas Santos</span>
 
                 <span class="dEstrelas">
                     <i class="fas fa-star"></i>
@@ -125,7 +125,7 @@
                     <i class="far fa-star"></i>
                 </span>
 
-                <p class="descResenhas">
+                <p th:text="${desc.avaliacao}" class="descResenhas">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                     Optio maiores qui sit eum ratione accusantium ullam quod 
                     temporibus sed, necessitatibus, reiciendis ad libero rerum 
@@ -133,81 +133,7 @@
                 </p>
             </div>
 
-           <div class="resenhas">
-                <span class="nomeCliDes">Bernardo da Silva</span>
-
-                <span class="dEstrelas">
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </span>
-
-                <p class="descResenhas">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Optio maiores qui sit eum ratione accusantium ullam quod 
-                    temporibus sed, necessitatibus, reiciendis ad libero rerum 
-                    cum quisquam dignissimos laboriosam, magnam dicta.
-                </p>
-            </div>
-
-            <div class="resenhas">
-                <span class="nomeCliDes">Bruno Costa Santos</span>
-
-                <span class="dEstrelas">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </span>
-
-                <p class="descResenhas">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Optio maiores qui sit eum ratione accusantium ullam quod 
-                    temporibus sed, necessitatibus, reiciendis ad libero rerum 
-                    cum quisquam dignissimos laboriosam, magnam dicta.
-                </p>
-            </div>
-
-            <div class="resenhas">
-                <span class="nomeCliDes">Bruno Costa Santos</span>
-
-                <span class="dEstrelas">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </span>
-
-                <p class="descResenhas">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Optio maiores qui sit eum ratione accusantium ullam quod 
-                    temporibus sed, necessitatibus, reiciendis ad libero rerum 
-                    cum quisquam dignissimos laboriosam, magnam dicta.
-                </p>
-            </div>
-
-            <div class="resenhas">
-                <span class="nomeCliDes">Bruno Costa Santos</span>
-
-                <span class="dEstrelas">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </span>
-
-                <p class="descResenhas">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Optio maiores qui sit eum ratione accusantium ullam quod 
-                    temporibus sed, necessitatibus, reiciendis ad libero rerum 
-                    cum quisquam dignissimos laboriosam, magnam dicta.
-                </p>
-            </div>
+           
         </section>
         <!-- FIM RESENHAS -->
 
@@ -242,13 +168,19 @@
             <!--  <label for="inpContratante" class="labContrato">Contratante</label> <!-- Contratante e contratado não usam o th:field para eu poder atribuir o valor através do th:value --> 
             <input type="hidden" readonly="readonly" class="inpContrato" th:value="${log.getName()}" th:name="contratante"  id="inpContratante" placeholder="Nome do cliente">
 
-            <!--  <label for="inpContratado" class="labContrato">Contratado</label>
-            <input type="hidden" readonly="readonly" class="inpContrato" th:value="${prestador.email}" th:name="contratado"  id="inpContratado" placeholder="Nome do prestador">  -->
+             <!--  <label for="inpContratado" class="labContrato">Contratado</label> -->
+            <input type="hidden" readonly="readonly" class="inpContrato" th:value="${prestador.email}" th:name="contratado"  id="inpContratado" placeholder="Nome do prestador">  
 
             <label for="descServico" class="labContrato">Descrição do serviço/obra a ser realizado</label>
             <textarea name="" class="areaDescSer" th:field="*{descricao}" id="descServico" rows="5" placeholder="Descreva aqui a obra"></textarea>
             
-            <label for="dataIni" class="labContrato date lUm">Data de início</label>
+             <label for="divFotos" class="labContrato">Anexe algumas imagens referente ao serviço</label>
+            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+            <div id="fileList"></div>
+
+            <label for="dataIni" class="labContrato date lUm">Data de início
+                <a href="#" id="fileSelect">Escolher arquivo(s)</a>
+            </label>
             <label for="dataTer" class="labContrato date">Data do término</label>
 
             <input type="date" class="inpContrato date iUm" th:field="*{datainicio}" id="dataIni" onmouseover="MudarCorDaIni()">
@@ -275,11 +207,14 @@
 
     <!-- INICIO FORM CLASSICAR PRESTADOR FIXED -->
     <div class="modalClassificar">
-        <form action="" method="post" class="formClasfcar">
+        <form action="/avaliacao" th:object="${avaliacao}"  method="post" class="formClasfcar">
             <p class="titClasfcar">Escreva sua avaliação</p>
-
+			<input type="hidden" readonly="readonly" class="inpContrato" th:value="${log.getName()}" th:name="avaliador"  id="inpContratante" placeholder="Nome do cliente">
+			<input type="hidden" readonly="readonly" class="inpContrato" th:value="${prestador.email}" th:name="profissinal"  id="inpContratado" placeholder="Nome do prestador">  
+			
+			
             <label for="descClasfcar" class="labContrato">Escreva aqui sua apinião</label>
-            <textarea name="" id="descClasfcar" rows="8" placeholder="Deixe sua breve opinião o(a) respeito do(a) prestador(a)"></textarea>
+            <textarea name="" th:field="*{avaliacao}" id="descClasfcar" rows="8" placeholder="Deixe sua breve opinião o(a) respeito do(a) prestador(a)"></textarea>
 
             <span class="tEstrelas" style="display: inline-block; margin-top: 33px;">
                 <i class="far fa-star" style='font-size: 32px; color: #FBBD08; display: inline-block; margin-left: 0px; cursor: pointer;'></i>
